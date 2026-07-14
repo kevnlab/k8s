@@ -1,0 +1,96 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  namespace: default
+  labels:
+    app: nginx
+    app.kubernetes.io/name: nginx
+    app.kubernetes.io/version: 1.18.0
+    app.kubernetes.io/managed-by: kubectl
+  annotations:
+    kai.io/team: kevnzhang
+spec:
+  selector:
+    app: nginx
+  type: ClusterIP
+  ports: 
+    - name: http
+      port: 80
+      protocol: TCP
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: default
+  labels:
+    app: nginx
+    app.kubernetes.io/name: nginx
+    app.kubernetes.io/version: 1.18.0
+    app.kubernetes.io/managed-by: kubectl
+  annotations:
+    kai.io/team: kevnzhang
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.18.0
+          ports: 80
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 80
+              scheme: HTTP
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 5
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /
+              port: 80
+              scheme: HTTP
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 5
+          ports:
+            - containerPort: 80
+              name: http
+              protocol: TCP
+          lifecycle:
+            # 1. Exec handler: runs a command inside the container's cgroups/namespaces
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "echo 'Nginx has started!!!' > /usr/share/nginx/html/poststart.txt"]
+            # 2. Sleep handler: pauses the container for N seconds before delivering
+            #    the termination signal (requires K8s >= 1.29, feature gate
+            #    PodLifecycleSleepAction; GA in 1.30+). Gives time for the Service/
+            #    Endpoint to remove this Pod before it actually stops.
+            preStop:
+              sleep:
+                seconds: 10
+            # 3. HTTP handler (alternative, mutually exclusive with the above):
+            # preStop:
+            #   httpGet:
+            #     path: /shutdown
+            #     port: http
+            #     scheme: HTTP
