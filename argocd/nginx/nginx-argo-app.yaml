@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/kevnlab/k8s.git
     targetRevision: main
-    path: k8s/argocd/nginx
+    path: argocd/nginx
   destination:
     server: https://kubernetes.default.svc
     namespace: default
