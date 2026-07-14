@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx
+  namespace: default
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/kevnlab/k8s.git
+    targetRevision: main
+    path: k8s/argocd/nginx
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy: {}   # 留空 = 手动同步，先观察
