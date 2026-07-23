@@ -8,7 +8,7 @@ metadata:
     app: nginx
     version: v2
     app.kubernetes.io/name: nginx
-    app.kubernetes.io/version: 1.18.0
+    app.kubernetes.io/version: 1.31.3
     app.kubernetes.io/managed-by: kubectl
   annotations:
     kai.io/team: kevnzhang
@@ -29,10 +29,10 @@ metadata:
   name: nginx-v2
   namespace: default
   labels:
-    app: nginx-v2
+    app: nginx
     version: v2
     app.kubernetes.io/name: nginx
-    app.kubernetes.io/version: 1.18.0
+    app.kubernetes.io/version: 1.31.3
     app.kubernetes.io/managed-by: kubectl
   annotations:
     kai.io/team: kevnzhang
@@ -54,7 +54,7 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: nginx:1.18.0
+          image: nginx:1.31.3
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 3
