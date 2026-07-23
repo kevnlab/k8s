@@ -42,7 +42,6 @@ spec:
     matchLabels:
       app: nginx
       version: v2
-      version v2
   strategy:
     rollingUpdate:
       maxSurge: 25%
