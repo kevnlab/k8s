@@ -46,7 +46,7 @@ spec:
   - group: ""
     name: nginx
     port: 80
-    kind: Service
+    kind: service
   rules:
   - backendRefs:
     - name: nginx-v1
