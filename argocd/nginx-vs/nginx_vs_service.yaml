@@ -1,0 +1,55 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-vs
+  namespace: default
+  labels:
+    app: nginx-vs
+    app.kubernetes.io/name: nginx
+    app.kubernetes.io/version: 1.31.3
+    app.kubernetes.io/managed-by: kubectl
+  annotations:
+    kai.io/team: kevnzhang
+spec:
+  selector:
+    app: nginx-vs
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+
+---
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  name: nginx-vs
+spec:
+  hosts: nginx-vs
+  subsets:
+    - name: v1
+      lables:
+        version: v1
+    - name: v2
+      labels:
+        version: v2
+
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: nginx-vs
+spec:
+  hosts: 
+    - nginx-vs
+  http:
+    - route:
+      - destination:
+          host: nginx-vs
+          subsets: v1 
+        weight: 90
+      - destination:
+          host: nginx-vs
+          subnets: v2
+        weight: 10
