@@ -26,7 +26,7 @@ kind: DestinationRule
 metadata:
   name: nginx-vs
 spec:
-  hosts: nginx-vs
+  host: nginx-vs
   subsets:
     - name: v1
       labels:
