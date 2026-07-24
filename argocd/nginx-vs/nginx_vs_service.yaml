@@ -48,7 +48,7 @@ spec:
       - destination:
           host: nginx-vs
           subset: v1 
-        weight: 1
+        weight: 10
       - destination:
           host: nginx-vs
           subset: v2
