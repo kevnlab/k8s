@@ -55,13 +55,3 @@ spec:
     - name: nginx-v2
       port: 80
       kind: Deployment
-    matches:
-    - path:
-        type: PathPrefix
-        value: /nginx
-    filters:
-    - type: URLRewrite
-      urlRewrite:
-        path:
-          type: ReplacePrefixMatch
-          replacePrefixMatch: /
