@@ -33,25 +33,9 @@ spec:
           type: ReplacePrefixMatch
           replacePrefixMatch: /
     backendRefs:
-    - name: nginx
-      port: 80
-
----
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute 
-metadata:
-  name: nginx-httproute
-spec:
-  parentRefs:
-  - group: ""
-    name: nginx
-    port: 80
-    kind: service
-  rules:
-  - backendRefs:
     - name: nginx-v1
       port: 80
-      kind: Deployment
+      weight: 90
     - name: nginx-v2
       port: 80
-      kind: Deployment
+      weight: 10
