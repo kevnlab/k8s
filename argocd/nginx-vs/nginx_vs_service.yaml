@@ -56,13 +56,11 @@ spec:
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
-  name: nginx-vs
+  name: nginx-vs-mesh
 spec:
   hosts: 
     - nginx-vs
-    - "*"
   gateways:
-    - nginx-vs-gateway
     - mesh
   http:
     - route:
@@ -73,4 +71,25 @@ spec:
       - destination:
           host: nginx-vs
           subset: v2
+        weight: 90
+
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: nginx-vs-gateway
+spec: 
+  hosts:
+    - '*'
+  gateways:
+    - nginx-vs-gateway
+  http:
+    - route:
+      - destination:
+          host: nginx-vs
+          subset: v1
+        weight: 10
+      - destination:
+          host: nginx-vs
+          subset: v2 
         weight: 90
