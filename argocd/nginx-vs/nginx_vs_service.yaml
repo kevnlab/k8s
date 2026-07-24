@@ -29,7 +29,7 @@ spec:
   hosts: nginx-vs
   subsets:
     - name: v1
-      lables:
+      labels:
         version: v1
     - name: v2
       labels:
