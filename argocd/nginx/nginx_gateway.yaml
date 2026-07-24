@@ -44,7 +44,7 @@ metadata:
 spec:
   parentRefs:
   - group: ""
-    name: nginx-service
+    name: nginx
     port: 80
     kind: Service
   rules:
