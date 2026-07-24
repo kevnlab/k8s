@@ -47,9 +47,9 @@ spec:
     - route:
       - destination:
           host: nginx-vs
-          subsets: v1 
-        weight: 90
+          subset: v1 
+        weight: 1
       - destination:
           host: nginx-vs
-          subnets: v2
-        weight: 10
+          subnet: v2
+        weight: 99
