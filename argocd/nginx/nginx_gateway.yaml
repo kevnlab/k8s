@@ -51,8 +51,10 @@ spec:
   - backendRefs:
     - name: nginx-v1
       port: 80
+      kind: Deployment
     - name: nginx-v2
       port: 80
+      kind: Deployment
     matches:
     - path:
         type: PathPrefix
