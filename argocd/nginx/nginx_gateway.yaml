@@ -53,7 +53,7 @@ spec:
       port: 80
     - name: nginx-v2
       port: 80
-    match:
+    matches:
     - path:
       type: PathPrefix
       value: /nginx
