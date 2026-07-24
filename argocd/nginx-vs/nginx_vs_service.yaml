@@ -36,6 +36,23 @@ spec:
         version: v2
 
 ---
+# Istio 传统 Gateway（南北向入口）
+apiVersion: networking.istio.io/v1
+kind: Gateway
+metadata:
+  name: nginx-vs-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+
+---
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
@@ -43,6 +60,10 @@ metadata:
 spec:
   hosts: 
     - nginx-vs
+    - "*"
+  gateways:
+    - nginx-vs-gateway
+    - mesh
   http:
     - route:
       - destination:
